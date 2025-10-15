@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useMemo } from "react"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -22,9 +23,34 @@ export default function GridVariant({
   showTags = true,
   showDate = false,
   columns = 3,
+  tagFilter = false,
 }: PortfolioProps) {
   
   const globalColors = colorClasses(colorVariant ?? "neutral")
+  
+  // État pour le tag sélectionné
+  const [selectedTag, setSelectedTag] = useState<string>("all")
+  
+  // Extraction de tous les tags uniques
+  const allTags = useMemo(() => {
+    const tagsSet = new Set<string>()
+    items.forEach(item => {
+      if (item.tags) {
+        item.tags.forEach(tag => tagsSet.add(tag))
+      }
+    })
+    return Array.from(tagsSet).sort()
+  }, [items])
+  
+  // Filtrage des items selon le tag sélectionné
+  const filteredItems = useMemo(() => {
+    if (!tagFilter || selectedTag === "all") {
+      return items
+    }
+    return items.filter(item => 
+      item.tags && item.tags.includes(selectedTag)
+    )
+  }, [items, selectedTag, tagFilter])
   
   // Classes de grille selon le nombre de colonnes
   const gridClasses = {
@@ -42,12 +68,53 @@ export default function GridVariant({
         </ScrollAnimation>
       )}
 
+      {/* Filtres par tags */}
+      {tagFilter && allTags.length > 0 && (
+        <ScrollAnimation animation="slideInUp" delay={0.1}>
+          <div className="mb-8 sm:mb-10 flex flex-wrap gap-2 justify-center">
+            <Button
+              variant={selectedTag === "all" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSelectedTag("all")}
+              className={cn(
+                "transition-all duration-300",
+                selectedTag === "all" && cn(
+                  "bg-gradient-to-r",
+                  globalColors.accent,
+                  "hover:opacity-90"
+                )
+              )}
+            >
+              Tous
+            </Button>
+            {allTags.map(tag => (
+              <Button
+                key={tag}
+                variant={selectedTag === tag ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedTag(tag)}
+                className={cn(
+                  "transition-all duration-300",
+                  selectedTag === tag && cn(
+                    "bg-gradient-to-r",
+                    globalColors.accent,
+                    "hover:opacity-90"
+                  )
+                )}
+              >
+                {tag}
+              </Button>
+            ))}
+          </div>
+        </ScrollAnimation>
+      )}
+
       {/* Portfolio Grid */}
       <div className={cn(
         "grid gap-6 sm:gap-8",
         gridClasses[columns]
       )}>
-        {items.map((item, index) => {
+        {filteredItems.map((item, index) => {
           const itemColors = colorClasses(item.colorVariant ?? colorVariant ?? "neutral")
           const hasLink = !!(item.href || item.onClick)
           
@@ -78,7 +145,7 @@ export default function GridVariant({
                       hasLink={hasLink}
                       showCategory={showCategory}
                       showDate={showDate}
-                      showTags={showTags}
+                      showTags={showTags && !tagFilter} // Cache les tags si le filtre est actif
                     />
                   </a>
                 ) : (
@@ -88,7 +155,7 @@ export default function GridVariant({
                     hasLink={hasLink}
                     showCategory={showCategory}
                     showDate={showDate}
-                    showTags={showTags}
+                    showTags={showTags && !tagFilter} // Cache les tags si le filtre est actif
                   />
                 )}
               </Card>
@@ -97,9 +164,18 @@ export default function GridVariant({
         })}
       </div>
 
+      {/* Message si aucun résultat */}
+      {filteredItems.length === 0 && tagFilter && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">
+            Aucun projet ne correspond au filtre sélectionné.
+          </p>
+        </div>
+      )}
+
       {/* CTA Button */}
       {button && (
-        <ScrollAnimation animation="slideInUp" delay={items.length * 0.1 + 0.2}>
+        <ScrollAnimation animation="slideInUp" delay={filteredItems.length * 0.1 + 0.2}>
           <div className="mt-12 sm:mt-16 text-center">
             <Button
               variant={button.variant || "default"}
