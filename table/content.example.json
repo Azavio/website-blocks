@@ -1,0 +1,206 @@
+{
+  "table-comparison": {
+    "block": "table",
+    "variant": "comparison",
+    "heading": "Pourquoi nous ?",
+    "subheading": "La différence entre une solution classique et notre approche moderne",
+    "color": "gradient",
+    "rows": [
+      {
+        "cells": [
+          { "content": "Critères", "isHeader": true, "color": "brand" },
+          { "content": "Solutions classiques", "isHeader": true },
+          { "content": "Notre approche", "isHeader": true, "color": "success" }
+        ],
+        "isHeader": true
+      },
+      {
+        "cells": [
+          { "content": "Performance", "className": "font-medium" },
+          { "content": "Dépendants des thèmes/plugins → pages lourdes" },
+          { "content": "Rendu optimisé, médias adaptés, cache malin → chargement rapide" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Sécurité", "className": "font-medium" },
+          { "content": "Surface d'attaque élargie (multiples plugins)" },
+          { "content": "Surface réduite, durcissement, suivi → moins d'incidents" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Évolutivité", "className": "font-medium" },
+          { "content": "Limites de thème, dette plugin" },
+          { "content": "Composants réutilisables, évolution claire → pas de redémarrage" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Coûts", "className": "font-medium" },
+          { "content": "Empilement licences/maintenance" },
+          { "content": "Coûts prévisibles, investissement utile" }
+        ]
+      }
+    ],
+    "button": {
+      "text": "Vraiment ? En savoir plus",
+      "variant": "outline"
+    }
+  },
+
+  "table-advanced": {
+    "block": "table",
+    "variant": "advanced",
+    "heading": "Pourquoi c'est un choix stratégique",
+    "color": "brand",
+    "rows": [
+      {
+        "cells": [
+          { "content": "Aspect", "isHeader": true },
+          { "content": "Avant", "isHeader": true, "color": "destructive" },
+          { "content": "Avec Azavio", "isHeader": true, "color": "success" },
+          { "content": "Amélioration", "isHeader": true, "color": "brand" }
+        ],
+        "isHeader": true
+      },
+      {
+        "cells": [
+          { "content": "Coûts opérationnels", "icon": "💰" },
+          { "content": "Imprévisibles" },
+          { "content": "Maîtrisés" },
+          { "content": "-40%", "badge": "-40%", "badgeVariant": "success" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "ROI marketing", "icon": "📈" },
+          { "content": "Limité par la lenteur" },
+          { "content": "Optimisé par la rapidité" },
+          { "content": "+60%", "badge": "+60%", "badgeVariant": "success" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Avantage concurrentiel", "icon": "🎯" },
+          { "content": "Générique" },
+          { "content": "Premium" },
+          { "content": "Unique", "badge": "Unique", "badgeVariant": "default" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Évolutivité", "icon": "🚀" },
+          { "content": "Refonte nécessaire" },
+          { "content": "Croissance modulaire" },
+          { "content": "∞", "badge": "∞", "badgeVariant": "default" }
+        ]
+      }
+    ]
+  },
+
+  "table-pros-cons": {
+    "block": "table",
+    "variant": "pros-cons",
+    "heading": "Comparatif simple",
+    "color": "gradient",
+    "rows": [
+      {
+        "cells": [
+          { 
+            "content": "CMS classiques", 
+            "isHeader": true,
+            "items": [
+              "Pages lourdes, rechargements fréquents",
+              "Thèmes limités, design \"déjà vu\"",
+              "Empilement de plugins et licences à maintenir",
+              "Sécurité et mises à jour chronophages",
+              "Évolutions compliquées, dette technique qui s'accumule"
+            ],
+            "itemsVariant": "destructive"
+          },
+          { 
+            "content": "Notre approche", 
+            "isHeader": true,
+            "items": [
+              "Rapidité ressentie immédiatement",
+              "Design unique et contemporain",
+              "Sérénité : surface d'attaque réduite",
+              "Éditions simples via éditeur adapté",
+              "Déploiements maîtrisés",
+              "SEO techniquement propre",
+              "Évolutivité : composants modulaires"
+            ],
+            "itemsVariant": "success"
+          }
+        ]
+      }
+    ]
+  },
+
+  "table-simple": {
+    "block": "table",
+    "variant": "simple",
+    "heading": "Comparatif détaillé",
+    "showStripes": true,
+    "rows": [
+      {
+        "cells": [
+          { "content": "Fonctionnalité", "isHeader": true },
+          { "content": "Essentiel", "isHeader": true },
+          { "content": "Croissance", "isHeader": true },
+          { "content": "Entreprise", "isHeader": true }
+        ],
+        "isHeader": true
+      },
+      {
+        "cells": [
+          { "content": "Nombre de workflows" },
+          { "content": "1" },
+          { "content": "5" },
+          { "content": "Illimité" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Opérations/jour" },
+          { "content": "50" },
+          { "content": "1 000" },
+          { "content": "Illimitées" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Support" },
+          { "content": "E-mail" },
+          { "content": "Hebdomadaire" },
+          { "content": "24/7 prioritaire" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Monitoring" },
+          { "content": "Basique" },
+          { "content": "Temps réel" },
+          { "content": "Avancé + IA" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Formation" },
+          { "content": "2h initiale" },
+          { "content": "4h équipe" },
+          { "content": "Sur mesure" }
+        ]
+      },
+      {
+        "cells": [
+          { "content": "Optimisations" },
+          { "content": "Mensuelle" },
+          { "content": "Mensuelle" },
+          { "content": "Continue" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "panel-info-tabs": {
+    "block": "panels-info",
+    "variant": "tabs",
+    "heading": "Beau, moderne, accessible",
+    "color": "gradient",
+    "subheading": "Cohérence, performance et inclusivité.",
+    "items": [
+      {
+        "icon": "🎨",
+        "title": "Design system",
+        "desc": "Cohérent sur tous les écrans"
+      },
+      {
+        "icon": "📝",
+        "title": "Typographies",
+        "metric": "WCAG AA",
+        "desc": "Contrastes vérifiés",
+        "img": "/placeholder.svg"
+      },
+      {
+        "icon": "✨",
+        "title": "Animations",
+        "metric": "60fps",
+        "desc": "Fluides et discrètes",
+        "img": "/placeholder.svg"
+      },
+      {
+        "icon": "♿",
+        "title": "Accessibilité",
+        "metric": "A11Y",
+        "desc": "Navigation universelle",
+        "img": "/placeholder.svg"
+      },
+      {
+        "icon": "🌓",
+        "title": "Modes adaptatifs",
+        "metric": "2 thèmes",
+        "desc": "Clair et sombre",
+        "img": "/placeholder.svg"
+      }
+    ]
+  },
+  "panel-info-horizontal-step": {
+    "block": "panels-info",
+    "variant": "horizontal-step",
+    "heading": "Pourquoi c'est un choix stratégique",
+    "color": "gradient",
+    "subheading": "Cohérence, performance et inclusivité.",
+    "items": [
+      {
+        "title": "Réduire les coûts",
+        "desc": "Moins de dépendances fragiles",
+        "icon": "DollarSign"
+      },
+      {
+        "title": "Améliorer le ROI",
+        "desc": "Site plus rapide = meilleures conversions",
+        "icon": "TrendingUp"
+      },
+      {
+        "title": "Avantage durable",
+        "desc": "Expérience premium vs outils génériques",
+        "icon": "Shield"
+      },
+      {
+        "title": "Grandir sans refonte",
+        "desc": "Ajout de fonctionnalités modulaires",
+        "icon": "ArrowRight"
+      }
+    ]
+  },
+  "panel-info-hub": {
+    "block": "panels-info",
+    "variant": "hub",
+    "heading": "Pourquoi c'est un choix stratégique",
+    "color": "gradient",
+    "subheading": "Azavio",
+    "items": [
+      {
+        "title": "Réduire les coûts",
+        "desc": "Moins de dépendances fragiles",
+        "icon": "DollarSign",
+        "metric": "-40%",
+        "color": "brand"
+      },
+      {
+        "title": "Améliorer le ROI",
+        "desc": "Site plus rapide = meilleures conversions",
+        "icon": "TrendingUp",
+        "metric": "+65%",
+        "color": "brand"
+      },
+      {
+        "title": "Prendre un avantage durable",
+        "desc": "Expérience premium vs outils génériques",
+        "icon": "Shield",
+        "metric": "100%",
+        "color": "brand"
+      },
+      {
+        "title": "Grandir sans refonte",
+        "desc": "Ajout de fonctionnalités modulaires",
+        "icon": "ArrowRight",
+        "metric": "∞",
+        "colorIcon": "brand"
+      }
+    ]
+  },
+  "panel-info-grid": {
+    "block": "grid",
+    "variant": "horizontal-step",
+    "heading": "Pourquoi c'est un choix stratégique",
+    "color": "gradient",
+    "subheading": "Cohérence, performance et inclusivité.",
+    "items": [
+      {
+        "title": "Réduire les coûts",
+        "desc": "Moins de dépendances fragiles",
+        "icon": "DollarSign"
+      },
+      {
+        "title": "Améliorer le ROI",
+        "desc": "Site plus rapide = meilleures conversions",
+        "icon": "TrendingUp"
+      },
+      {
+        "title": "Avantage durable",
+        "desc": "Expérience premium vs outils génériques",
+        "icon": "Shield"
+      },
+      {
+        "title": "Grandir sans refonte",
+        "desc": "Ajout de fonctionnalités modulaires",
+        "icon": "ArrowRight"
+      }
+    ]
+  }
+}
