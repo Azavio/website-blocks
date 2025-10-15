@@ -47,16 +47,17 @@ export default function TabsVariant({
       )}
 
       <div className="mx-auto max-w-6xl">
-        <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 xl:gap-12">
-          {/* Accordéon (liste) */}
-          <ScrollAnimation animation="slideInLeft">
-            <div className="lg:order-1">
+        {/* Grid avec hauteur uniforme */}
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 xl:gap-12 lg:grid-rows-1">
+          {/* Accordéon (liste) - Prend toute la hauteur disponible */}
+          <ScrollAnimation animation="slideInLeft" className="lg:h-full">
+            <div className="lg:order-1 lg:h-full flex flex-col">
               <Accordion
                 type="single"
                 collapsible={false}
                 value={activeValue}
                 onValueChange={handleAccordionChange}
-                className="space-y-3 sm:space-y-4"
+                className="space-y-3 sm:space-y-4 flex-1"
               >
                 {items.map((item, index) => {
                   // Priorité : item.colorVariant > colorVariant global > neutral
@@ -93,8 +94,8 @@ export default function TabsVariant({
                       >
                         <div className="flex items-center gap-2 sm:gap-3">
                           {item.icon && (
-                            <Icon 
-                              name={item.icon} 
+                            <Icon
+                              name={item.icon}
                               className={cn(
                                 "text-xl sm:text-2xl flex-shrink-0 transition-colors duration-300",
                                 isActive ? colors.text : "text-muted-foreground"
@@ -104,14 +105,6 @@ export default function TabsVariant({
                           <span className="flex-1 min-w-0 truncate sm:text-clip">{item.title}</span>
                         </div>
                       </AccordionTrigger>
-
-                      <AccordionContent className="px-3 pb-3 pt-0 sm:px-4 sm:pb-4">
-                        {item.desc && (
-                          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                            {item.desc}
-                          </p>
-                        )}
-                      </AccordionContent>
                     </AccordionItem>
                   )
                 })}
@@ -119,12 +112,12 @@ export default function TabsVariant({
             </div>
           </ScrollAnimation>
 
-          {/* Prévisualisation */}
-          <ScrollAnimation animation="slideInRight">
-            <div className="lg:order-2">
+          {/* Prévisualisation - Prend toute la hauteur disponible */}
+          <ScrollAnimation animation="slideInRight" className="lg:h-full">
+            <div className="lg:order-2 lg:h-full">
               <Card
                 className={cn(
-                  "h-full min-h-[300px] sm:min-h-[400px] lg:min-h-[500px] transition-all duration-300",
+                  "h-full min-h-[300px] sm:min-h-[400px] lg:min-h-0 transition-all duration-300",
                   globalColors.card,
                   globalColors.hover,
                   cardClassName
@@ -134,15 +127,15 @@ export default function TabsVariant({
                   {items[activeIndex] && (() => {
                     // Couleurs pour l'item actif
                     const activeColors = colorClasses(items[activeIndex].colorVariant ?? colorVariant ?? "neutral")
-                    
+
                     return (
                       <div className="text-center w-full max-w-md mx-auto">
                         {/* Icône ou méta en "hero" */}
                         <div className="mb-4 sm:mb-6 flex items-center justify-center gap-3">
                           {items[activeIndex].icon && (
                             <div className="text-4xl sm:text-5xl lg:text-6xl leading-none">
-                              <Icon 
-                                name={items[activeIndex].icon} 
+                              <Icon
+                                name={items[activeIndex].icon}
                                 size="70"
                                 className={cn(
                                   "transition-all duration-300",
@@ -153,7 +146,7 @@ export default function TabsVariant({
                           )}
                         </div>
 
-                        <h3 
+                        <h3
                           className={cn(
                             "mb-3 sm:mb-4 text-lg sm:text-xl lg:text-2xl font-bold leading-tight transition-all duration-300",
                             activeColors.textContentGradient
@@ -179,7 +172,7 @@ export default function TabsVariant({
                           </p>
                         )}
 
-                        <div 
+                        <div
                           className={cn(
                             "mb-4 sm:mb-6 h-1.5 sm:h-2 w-full rounded-full transition-all duration-300",
                             activeColors.accent

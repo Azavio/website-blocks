@@ -35,7 +35,7 @@ export default function GridVariant({
       <div className={gridClassName}>
         {items.map((item, index) => {
           // Priorité : item.colorVariant > colorVariant global > neutral
-          const colors = colorClasses(item.colorVariant ?? colorVariant ?? "neutral")
+          const colors = colorClasses(item.colorVariant ?? colorVariant ?? "")
 
           return (
             <ScrollAnimation
