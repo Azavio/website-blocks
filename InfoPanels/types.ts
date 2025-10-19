@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { ColorVariant } from "@/lib/color-mapping";
 import type { CustomHeaderProps } from "@/components/ui/CustomHeader"
 
-export type Variant = "grid" | "grid-2" | "grid-3" | "grid-4" | "tabs" | "timeline" | "timeline-2" | "horizontal-step" | "hub" | "stepper";
+export type Variant = "grid" | "grid-2" | "grid-3" | "grid-4" | "grid-5" | "tabs" | "timeline" | "timeline-2" | "horizontal-step" | "hub" | "stepper";
 
 export type Item = {
   icon?: string;

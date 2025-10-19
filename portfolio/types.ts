@@ -60,4 +60,5 @@ export type PortfolioProps = {
     showDate?: boolean;
     columns?: 2 | 3 | 4; // Pour la variante grid
     tagFilter?: boolean; // Active le système de filtrage par tags
+    searchItems?: boolean; // Active la recherche
 };

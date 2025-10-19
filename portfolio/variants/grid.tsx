@@ -2,9 +2,10 @@
 
 import { useState, useMemo } from "react"
 import { ScrollAnimation } from "@/components/scroll-animation"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Icon } from "@/components/ui/icon"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -24,12 +25,16 @@ export default function GridVariant({
   showDate = false,
   columns = 3,
   tagFilter = false,
+  searchItems = false,
 }: PortfolioProps) {
   
   const globalColors = colorClasses(colorVariant ?? "neutral")
   
   // État pour le tag sélectionné
   const [selectedTag, setSelectedTag] = useState<string>("all")
+  
+  // État pour la recherche
+  const [searchTerm, setSearchTerm] = useState<string>("")
   
   // Extraction de tous les tags uniques
   const allTags = useMemo(() => {
@@ -42,15 +47,30 @@ export default function GridVariant({
     return Array.from(tagsSet).sort()
   }, [items])
   
-  // Filtrage des items selon le tag sélectionné
+  // Filtrage des items selon le tag et la recherche
   const filteredItems = useMemo(() => {
-    if (!tagFilter || selectedTag === "all") {
-      return items
+    let filtered = items
+    
+    // Filtre par tag
+    if (tagFilter && selectedTag !== "all") {
+      filtered = filtered.filter(item => 
+        item.tags && item.tags.includes(selectedTag)
+      )
     }
-    return items.filter(item => 
-      item.tags && item.tags.includes(selectedTag)
-    )
-  }, [items, selectedTag, tagFilter])
+    
+    // Filtre par recherche
+    if (searchItems && searchTerm.trim()) {
+      const searchLower = searchTerm.toLowerCase()
+      filtered = filtered.filter(item => 
+        item.title.toLowerCase().includes(searchLower) ||
+        item.description.toLowerCase().includes(searchLower) ||
+        (item.category && item.category.toLowerCase().includes(searchLower)) ||
+        (item.tags && item.tags.some(tag => tag.toLowerCase().includes(searchLower)))
+      )
+    }
+    
+    return filtered
+  }, [items, selectedTag, tagFilter, searchTerm, searchItems])
   
   // Classes de grille selon le nombre de colonnes
   const gridClasses = {
@@ -65,6 +85,57 @@ export default function GridVariant({
       {header && (
         <ScrollAnimation animation="slideInUp">
           <CustomHeader {...header} />
+        </ScrollAnimation>
+      )}
+
+      {/* Barre de recherche */}
+      {searchItems && (
+        <ScrollAnimation animation="slideInUp" delay={0.05}>
+          <Card className={cn(
+            "mb-8 sm:mb-10 transition-all duration-300",
+            globalColors.card
+          )}>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Icon name="Search" className="mr-2 h-5 w-5" />
+                Recherche en temps réel
+              </CardTitle>
+              <CardDescription>
+                Trouvez rapidement le projet que vous recherchez
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="relative">
+                <Icon 
+                  name="Search" 
+                  className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" 
+                />
+                <Input
+                  placeholder="Rechercher par titre, description, catégorie ou tags..."
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+                {searchTerm && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 transform"
+                    onClick={() => setSearchTerm("")}
+                  >
+                    <Icon name="X" className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+              
+              {/* Résultat de recherche */}
+              {searchTerm && (
+                <div className="mt-4 text-sm text-muted-foreground">
+                  {filteredItems.length} {filteredItems.length === 1 ? 'projet trouvé' : 'projets trouvés'}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </ScrollAnimation>
       )}
 
@@ -165,11 +236,27 @@ export default function GridVariant({
       </div>
 
       {/* Message si aucun résultat */}
-      {filteredItems.length === 0 && tagFilter && (
+      {((filteredItems.length === 0 && tagFilter) || (filteredItems.length === 0 && searchItems && searchTerm)) && (
         <div className="text-center py-12">
+          <Icon name="SearchX" className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <p className="text-muted-foreground">
-            Aucun projet ne correspond au filtre sélectionné.
+            {searchTerm 
+              ? `Aucun projet ne correspond à votre recherche "${searchTerm}"`
+              : "Aucun projet ne correspond au filtre sélectionné."}
           </p>
+          {(tagFilter || searchTerm) && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-4"
+              onClick={() => {
+                setSelectedTag("all")
+                setSearchTerm("")
+              }}
+            >
+              Réinitialiser les filtres
+            </Button>
+          )}
         </div>
       )}
 

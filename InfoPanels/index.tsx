@@ -2,6 +2,7 @@ import GridVariant from "./variants/grid";
 import Grid2Variant from "./variants/grid-2";
 import Grid3Variant from "./variants/grid-3";
 import Grid4Variant from "./variants/grid-4";
+import Grid5Variant from "./variants/grid-5";
 import TabsVariant from "./variants/tabs";
 import HubVariant from "./variants/hub";
 import HorizontalStepVariant from "./variants/horizontal-step";
@@ -20,6 +21,7 @@ export default function InfoPanels({ data }: { data: any; }) {
     case "grid-2": return <Grid2Variant {...props} />;
     case "grid-3": return <Grid3Variant {...props} />;
     case "grid-4": return <Grid4Variant {...props} />;
+    case "grid-5": return <Grid5Variant {...props} />;
     case "tabs": return <TabsVariant {...props} />;
     case "timeline": return <TimelineVariant {...props} />;
     case "timeline-2": return <Timeline2Variant {...props} />;
