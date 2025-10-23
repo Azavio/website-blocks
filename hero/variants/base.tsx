@@ -66,7 +66,7 @@ export default function BaseVariant({
 
       {/* Image Background */}
       {background?.type === "image" && background.image && (
-        <div className="absolute inset-0 -z-10">
+        <div className="inset-0 -z-10">
           <Image
             src={background.image}
             alt={background.imageAlt ?? ""}
@@ -151,7 +151,7 @@ export default function BaseVariant({
           >
             {/* Heading */}
             {headingTag === "h1" ? (
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-6xl">
+              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-6xl text-background">
                 {renderTextWithSegments(content.heading)}
               </h1>
             ) : (
@@ -171,11 +171,11 @@ export default function BaseVariant({
             {(content.text || content.textStrong) && (
               <p className="mt-6 px-4 text-base leading-7 sm:px-0 sm:text-lg sm:leading-8">
                 {content.text && (
-                  <span className="text-muted-foreground">{content.text}</span>
+                  <span className="text-muted-foreground">{renderTextWithSegments(content.text)}</span>
                 )}
                 {content.text && content.textStrong && <br />}
                 {content.textStrong && (
-                  <strong className="text-foreground">{content.textStrong}</strong>
+                  <strong className="text-foreground">{renderTextWithSegments(content.textStrong)}</strong>
                 )}
               </p>
             )}

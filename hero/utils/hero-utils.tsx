@@ -10,12 +10,17 @@ import { ReactNode, Fragment } from "react"
  * Supporte à la fois les strings simples et les tableaux de TextSegment
  */
 export function renderTextWithSegments(
-  text: string | TextSegment[],
+  text: string | TextSegment[] | TextSegment,  // ← Ajoute | TextSegment
   className?: string
 ): ReactNode {
   // Si c'est une string simple, on la retourne directement
   if (typeof text === "string") {
     return <span className={className}>{text}</span>
+  }
+
+  // ✅ NOUVEAU : Si c'est un objet seul (pas un tableau), on le wrappe dans un tableau
+  if (!Array.isArray(text)) {
+    text = [text]
   }
 
   // Sinon, on traite chaque segment individuellement
@@ -35,18 +40,16 @@ export function renderTextWithSegments(
           <Fragment key={index}>
             {/* Ajoute un <br> si le segment commence par \n ou \r */}
             {hasLineBreak && <br />}
-
             <span
               className={cn(
                 className,
                 segment.bold && "font-bold",
                 segment.italic && "italic",
-                segment.gradient && colors?.text,
+                colors?.text,
               )}
             >
               {cleanText}
             </span>
-
             {/* Ajoute un espace entre les segments sauf pour le dernier ou si ligne suivante */}
             {index < text.length - 1 && cleanText && !text[index + 1]?.text.startsWith('\n') && " "}
           </Fragment>
@@ -92,7 +95,7 @@ export function getBackgroundClasses(
     case "parallax":
       // Pour les images, le background est géré par le composant Image
       // On applique juste une couleur de fallback
-      return "bg-background"
+      return ""
 
     case "video":
       // Pour les vidéos, on utilise un fond noir par défaut

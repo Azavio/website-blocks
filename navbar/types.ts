@@ -26,7 +26,8 @@ export type NavSection = {
 
 // Configuration du logo
 export type LogoConfig = {
-    src: string;
+    lightSrc: string;
+    darkSrc: string;
     alt: string;
     width?: number;
     height?: number;

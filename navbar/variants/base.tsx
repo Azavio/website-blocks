@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { colorClasses } from "@/lib/color-mapping"
+import { useTheme } from "next-themes"
+
 import type { NavbarProps, NavSection, NavLink } from "../types"
 
 export default function BaseVariant({
@@ -34,6 +36,7 @@ export default function BaseVariant({
   const pathname = usePathname()
   const colors = colorClasses(colorVariant ?? "neutral")
   const ctaColors = colorClasses(cta?.colorVariant ?? "brand")
+  const { theme } = useTheme()
 
   // Classes de base pour les liens
   const baseLinkClasses =
@@ -73,7 +76,7 @@ export default function BaseVariant({
         <div className="flex lg:flex-1">
           <Link href={logo.href || "/"} className="-m-1.5 flex items-center">
             <Image
-              src={logo.src}
+              src={theme === "dark" ? logo["darkSrc"] : logo["lightSrc"]}
               alt={logo.alt}
               width={logo.width || 80}
               height={logo.height || 50}
@@ -206,7 +209,7 @@ export default function BaseVariant({
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Image
-                  src={logo.src}
+                  src={theme === "dark" ? logo["darkSrc"] : logo["lightSrc"]}
                   alt={logo.alt}
                   width="50"
                   height="50"

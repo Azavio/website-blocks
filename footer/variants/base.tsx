@@ -22,26 +22,26 @@ export default function BaseVariant({
 }: FooterProps) {
   const colors = colorClasses(colorVariant ?? "neutral")
   const newsletterColors = colorClasses(newsletter?.colorVariant ?? colorVariant ?? "brand")
-  
+
   // État newsletter
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
-  
+
   // Gestion soumission newsletter
   const handleNewsletterSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    
+
     if (!email || isSubmitting) return
-    
+
     setIsSubmitting(true)
     setShowSuccess(false)
-    
+
     try {
       await newsletter?.onSubmit?.(email)
       setShowSuccess(true)
       setEmail("")
-      
+
       // Cache le message de succès après 5s
       setTimeout(() => setShowSuccess(false), 5000)
     } catch (error) {
@@ -50,18 +50,18 @@ export default function BaseVariant({
       setIsSubmitting(false)
     }
   }
-  
+
   // Classes de layout
   const isCompact = layout === "compact"
   const spacingClasses = isCompact ? "py-8 sm:py-12" : "py-12 sm:py-16 lg:py-20"
-  
+
   return (
     <footer className={cn(
       "relative border-t border-border bg-muted/30",
       className
     )}>
       <div className={cn("mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", spacingClasses)}>
-        
+
         {/* Newsletter Section (optionnelle) */}
         {newsletter?.enabled && (
           <ScrollAnimation animation="slideInUp">
@@ -79,17 +79,17 @@ export default function BaseVariant({
                     {newsletter.title}
                   </h3>
                 )}
-                
+
                 {/* Description */}
                 {newsletter.description && (
                   <p className="mb-6 text-sm sm:text-base text-muted-foreground">
                     {newsletter.description}
                   </p>
                 )}
-                
+
                 {/* Formulaire */}
                 {!showSuccess ? (
-                  <form 
+                  <form
                     onSubmit={handleNewsletterSubmit}
                     className="flex flex-col sm:flex-row gap-3 sm:gap-2"
                   >
@@ -139,7 +139,7 @@ export default function BaseVariant({
             </div>
           </ScrollAnimation>
         )}
-        
+
         {/* Colonnes de navigation (si présentes) */}
         {columns.length > 0 && (
           <ScrollAnimation animation="slideInUp" delay={0.1}>
@@ -159,14 +159,14 @@ export default function BaseVariant({
                   )}>
                     {column.title}
                   </h4>
-                  
+
                   {/* Description optionnelle */}
                   {column.description && (
                     <p className="mb-4 text-sm text-muted-foreground">
                       {column.description}
                     </p>
                   )}
-                  
+
                   {/* Liste de liens */}
                   <ul className="space-y-3">
                     {column.links.map((link, linkIndex) => (
@@ -181,9 +181,9 @@ export default function BaseVariant({
                           )}
                         >
                           {link.icon && (
-                            <Icon 
-                              name={link.icon} 
-                              className="h-4 w-4 transition-transform group-hover:translate-x-0.5" 
+                            <Icon
+                              name={link.icon}
+                              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
                             />
                           )}
                           <span>{link.label}</span>
@@ -193,9 +193,9 @@ export default function BaseVariant({
                             </Badge>
                           )}
                           {link.external && (
-                            <Icon 
-                              name="ExternalLink" 
-                              className="h-3 w-3 opacity-50" 
+                            <Icon
+                              name="ExternalLink"
+                              className="h-3 w-3 opacity-50"
                             />
                           )}
                         </a>
@@ -207,21 +207,21 @@ export default function BaseVariant({
             </div>
           </ScrollAnimation>
         )}
-        
+
         {/* Divider */}
         {showDivider && (columns.length > 0 || newsletter?.enabled) && (
           <ScrollAnimation animation="fadeIn" delay={0.15}>
-            <hr className="border-t border-border" />
+            <hr className="border-t border-border mt-6" />
           </ScrollAnimation>
         )}
-        
+
         {/* Copyright Section */}
         <ScrollAnimation animation="slideInUp" delay={0.2}>
           <div className={cn(
             "flex flex-col gap-6 sm:gap-8",
-            showDivider && (columns.length > 0 || newsletter?.enabled) && "pt-8 sm:pt-12"
+            showDivider && (columns.length > 0 || newsletter?.enabled) && "pt-2"
           )}>
-            
+
             {/* Logo + Réseaux sociaux */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               {/* Logo */}
@@ -236,7 +236,7 @@ export default function BaseVariant({
                   />
                 </div>
               )}
-              
+
               {/* Réseaux sociaux */}
               {copyright.socials && copyright.socials.length > 0 && (
                 <div className="flex items-center gap-3">
@@ -259,12 +259,11 @@ export default function BaseVariant({
                 </div>
               )}
             </div>
-            
             {/* Copyright text + liens légaux */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
               {/* Texte copyright */}
               <p>{copyright.text}</p>
-              
+
               {/* Liens légaux */}
               {copyright.links && copyright.links.length > 0 && (
                 <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
