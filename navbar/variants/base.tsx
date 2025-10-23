@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -38,7 +38,19 @@ export default function BaseVariant({
   const pathname = usePathname()
   const colors = colorClasses(colorVariant ?? 'neutral')
   const ctaColors = colorClasses(cta?.colorVariant ?? 'brand')
-  const { theme } = useTheme()
+
+  const { theme, systemTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  
+  // Attendre que le composant soit monté côté client
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Déterminer le theme réel (en tenant compte du system theme)
+  const currentTheme = theme === 'system' || theme === undefined ? systemTheme : theme
+  // Pendant le SSR ou avant le mount, afficher le logo light par défaut
+  const logoSrc = mounted  ? (currentTheme === 'dark' ? logo.darkSrc : logo.lightSrc) : logo.lightSrc
 
   // Classes de base pour les liens
   const baseLinkClasses =
@@ -78,7 +90,7 @@ export default function BaseVariant({
         <div className="flex lg:flex-1">
           <Link href={logo.href || '/'} className="-m-1.5 flex items-center">
             <Image
-              src={theme === 'dark' ? logo['darkSrc'] : logo['lightSrc']}
+              src={logoSrc}
               alt={logo.alt}
               width={logo.width || 80}
               height={logo.height || 50}
@@ -154,7 +166,7 @@ export default function BaseVariant({
                       className={cn(
                         'flex cursor-pointer items-center gap-2',
                         pathname === item.href &&
-                          cn('text-foreground', colors.text),
+                        cn('text-foreground', colors.text),
                       )}
                     >
                       {item.icon && (
@@ -184,7 +196,7 @@ export default function BaseVariant({
               className={cn(
                 'transition-all duration-300',
                 cta.variant === 'default' &&
-                  cn('bg-gradient-to-r', ctaColors.accent, 'hover:opacity-90'),
+                cn('bg-gradient-to-r', ctaColors.accent, 'hover:opacity-90'),
               )}
             >
               <Link href={cta.href}>
@@ -215,7 +227,7 @@ export default function BaseVariant({
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Image
-                  src={theme === 'dark' ? logo['darkSrc'] : logo['lightSrc']}
+                  src={logoSrc}
                   alt={logo.alt}
                   width="50"
                   height="50"
@@ -339,11 +351,11 @@ export default function BaseVariant({
                       className={cn(
                         'w-full transition-all duration-300',
                         cta.variant === 'default' &&
-                          cn(
-                            'bg-gradient-to-r',
-                            ctaColors.accent,
-                            'hover:opacity-90',
-                          ),
+                        cn(
+                          'bg-gradient-to-r',
+                          ctaColors.accent,
+                          'hover:opacity-90',
+                        ),
                       )}
                     >
                       <Link
