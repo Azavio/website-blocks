@@ -1,12 +1,12 @@
-import type { FAQProps } from "./types";
-import AccordionOutlineVariant from "./variants/accordion-outline";
+import type { FAQProps } from './types'
+import AccordionOutlineVariant from './variants/accordion-outline'
 
 export default function Form({ data }: { data: any }) {
-  const props: FAQProps = data;
+  const props: FAQProps = data
 
   switch (props.variant) {
-    case "accordion-outline":
-      return <AccordionOutlineVariant {...props} />;
+    case 'accordion-outline':
+      return <AccordionOutlineVariant {...props} />
     // Futures variantes
     // case "minimal":
     //   return <MinimalVariant {...props} />;
@@ -15,6 +15,6 @@ export default function Form({ data }: { data: any }) {
     // case "survey":
     //   return <SurveyVariant {...props} />;
     default:
-      return <AccordionOutlineVariant {...props} />;
+      return <AccordionOutlineVariant {...props} />
   }
 }

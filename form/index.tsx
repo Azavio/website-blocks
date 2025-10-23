@@ -1,12 +1,12 @@
-import type { FormProps } from "./types";
-import BaseVariant from "./variants/base";
+import type { FormProps } from './types'
+import BaseVariant from './variants/base'
 
 export default function Form({ data }: { data: any }) {
-  const props: FormProps = data;
+  const props: FormProps = data
 
   switch (props.variant) {
-    case "base":
-      return <BaseVariant {...props} />;
+    case 'base':
+      return <BaseVariant {...props} />
     // Futures variantes
     // case "minimal":
     //   return <MinimalVariant {...props} />;
@@ -15,6 +15,6 @@ export default function Form({ data }: { data: any }) {
     // case "survey":
     //   return <SurveyVariant {...props} />;
     default:
-      return <BaseVariant {...props} />;
+      return <BaseVariant {...props} />
   }
 }

@@ -1,15 +1,16 @@
-"use client"
+'use client'
 
-import { useState, FormEvent } from "react"
-import { ScrollAnimation } from "@/components/scroll-animation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Icon } from "@/components/ui/icon"
-import { Badge } from "@/components/ui/badge"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
-import { colorClasses } from "@/lib/color-mapping"
-import type { FooterProps } from "../types"
+import type { FormEvent } from 'react'
+import { useState } from 'react'
+import { ScrollAnimation } from '@/components/scroll-animation'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Icon } from '@/components/ui/icon'
+import { Badge } from '@/components/ui/badge'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
+import { colorClasses } from '@/lib/color-mapping'
+import type { FooterProps } from '../types'
 
 export default function BaseVariant({
   columns = [],
@@ -18,13 +19,15 @@ export default function BaseVariant({
   colorVariant,
   className,
   showDivider = true,
-  layout = "default",
+  layout = 'default',
 }: FooterProps) {
-  const colors = colorClasses(colorVariant ?? "neutral")
-  const newsletterColors = colorClasses(newsletter?.colorVariant ?? colorVariant ?? "brand")
+  const colors = colorClasses(colorVariant ?? 'neutral')
+  const newsletterColors = colorClasses(
+    newsletter?.colorVariant ?? colorVariant ?? 'brand',
+  )
 
   // État newsletter
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
 
@@ -40,49 +43,53 @@ export default function BaseVariant({
     try {
       await newsletter?.onSubmit?.(email)
       setShowSuccess(true)
-      setEmail("")
+      setEmail('')
 
       // Cache le message de succès après 5s
       setTimeout(() => setShowSuccess(false), 5000)
     } catch (error) {
-      console.error("Newsletter subscription error:", error)
+      console.error('Newsletter subscription error:', error)
     } finally {
       setIsSubmitting(false)
     }
   }
 
   // Classes de layout
-  const isCompact = layout === "compact"
-  const spacingClasses = isCompact ? "py-8 sm:py-12" : "py-12 sm:py-16 lg:py-20"
+  const isCompact = layout === 'compact'
+  const spacingClasses = isCompact ? 'py-8 sm:py-12' : 'py-12 sm:py-16 lg:py-20'
 
   return (
-    <footer className={cn(
-      "relative border-t border-border bg-muted/30",
-      className
-    )}>
-      <div className={cn("mx-auto max-w-7xl px-4 sm:px-6 lg:px-8", spacingClasses)}>
-
+    <footer
+      className={cn('relative border-t border-border bg-muted/30', className)}
+    >
+      <div
+        className={cn('mx-auto max-w-7xl px-4 sm:px-6 lg:px-8', spacingClasses)}
+      >
         {/* Newsletter Section (optionnelle) */}
         {newsletter?.enabled && (
           <ScrollAnimation animation="slideInUp">
-            <div className={cn(
-              "mb-12 sm:mb-16 rounded-2xl p-6 sm:p-8 lg:p-10",
-              newsletterColors.card
-            )}>
+            <div
+              className={cn(
+                'mb-12 rounded-2xl p-6 sm:mb-16 sm:p-8 lg:p-10',
+                newsletterColors.card,
+              )}
+            >
               <div className="mx-auto max-w-2xl text-center">
                 {/* Titre */}
                 {newsletter.title && (
-                  <h3 className={cn(
-                    "mb-3 text-2xl sm:text-3xl font-bold",
-                    newsletterColors.textContentGradient
-                  )}>
+                  <h3
+                    className={cn(
+                      'mb-3 text-2xl font-bold sm:text-3xl',
+                      newsletterColors.textContentGradient,
+                    )}
+                  >
                     {newsletter.title}
                   </h3>
                 )}
 
                 {/* Description */}
                 {newsletter.description && (
-                  <p className="mb-6 text-sm sm:text-base text-muted-foreground">
+                  <p className="mb-6 text-sm text-muted-foreground sm:text-base">
                     {newsletter.description}
                   </p>
                 )}
@@ -91,13 +98,13 @@ export default function BaseVariant({
                 {!showSuccess ? (
                   <form
                     onSubmit={handleNewsletterSubmit}
-                    className="flex flex-col sm:flex-row gap-3 sm:gap-2"
+                    className="flex flex-col gap-3 sm:flex-row sm:gap-2"
                   >
                     <Input
                       type="email"
-                      placeholder={newsletter.placeholder || "votre@email.com"}
+                      placeholder={newsletter.placeholder || 'votre@email.com'}
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={e => setEmail(e.target.value)}
                       required
                       disabled={isSubmitting}
                       className="flex-1"
@@ -106,14 +113,17 @@ export default function BaseVariant({
                       type="submit"
                       disabled={isSubmitting || !email}
                       className={cn(
-                        "transition-all duration-300",
+                        'transition-all duration-300',
                         newsletterColors.accent,
-                        "hover:opacity-90"
+                        'hover:opacity-90',
                       )}
                     >
                       {isSubmitting ? (
                         <>
-                          <Icon name="Loader2" className="mr-2 h-4 w-4 animate-spin" />
+                          <Icon
+                            name="Loader2"
+                            className="mr-2 h-4 w-4 animate-spin"
+                          />
                           Envoi...
                         </>
                       ) : (
@@ -125,13 +135,16 @@ export default function BaseVariant({
                     </Button>
                   </form>
                 ) : (
-                  <div className={cn(
-                    "rounded-lg p-4 text-sm flex items-center justify-center gap-2",
-                    colorClasses("success").card
-                  )}>
+                  <div
+                    className={cn(
+                      'flex items-center justify-center gap-2 rounded-lg p-4 text-sm',
+                      colorClasses('success').card,
+                    )}
+                  >
                     <Icon name="CheckCircle" className="h-4 w-4" />
                     <span>
-                      {newsletter.successMessage || "Merci pour votre inscription !"}
+                      {newsletter.successMessage ||
+                        'Merci pour votre inscription !'}
                     </span>
                   </div>
                 )}
@@ -143,20 +156,25 @@ export default function BaseVariant({
         {/* Colonnes de navigation (si présentes) */}
         {columns.length > 0 && (
           <ScrollAnimation animation="slideInUp" delay={0.1}>
-            <div className={cn(
-              "grid gap-8 sm:gap-12",
-              columns.length === 1 && "grid-cols-1",
-              columns.length === 2 && "grid-cols-1 sm:grid-cols-2",
-              columns.length === 3 && "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-              !isCompact && "mb-12 sm:mb-16"
-            )}>
+            <div
+              className={cn(
+                'grid gap-8 sm:gap-12',
+                columns.length === 1 && 'grid-cols-1',
+                columns.length === 2 && 'grid-cols-1 sm:grid-cols-2',
+                columns.length === 3 &&
+                  'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+                !isCompact && 'mb-12 sm:mb-16',
+              )}
+            >
               {columns.map((column, index) => (
                 <div key={column.title + index}>
                   {/* Titre de colonne */}
-                  <h4 className={cn(
-                    "mb-4 text-sm font-semibold uppercase tracking-wider",
-                    colors.text
-                  )}>
+                  <h4
+                    className={cn(
+                      'mb-4 text-sm font-semibold uppercase tracking-wider',
+                      colors.text,
+                    )}
+                  >
                     {column.title}
                   </h4>
 
@@ -173,11 +191,13 @@ export default function BaseVariant({
                       <li key={link.label + linkIndex}>
                         <a
                           href={link.href}
-                          target={link.external ? "_blank" : undefined}
-                          rel={link.external ? "noopener noreferrer" : undefined}
+                          target={link.external ? '_blank' : undefined}
+                          rel={
+                            link.external ? 'noopener noreferrer' : undefined
+                          }
                           className={cn(
-                            "group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors",
-                            "hover:text-foreground"
+                            'group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors',
+                            'hover:text-foreground',
                           )}
                         >
                           {link.icon && (
@@ -211,28 +231,31 @@ export default function BaseVariant({
         {/* Divider */}
         {showDivider && (columns.length > 0 || newsletter?.enabled) && (
           <ScrollAnimation animation="fadeIn" delay={0.15}>
-            <hr className="border-t border-border mt-6" />
+            <hr className="mt-6 border-t border-border" />
           </ScrollAnimation>
         )}
 
         {/* Copyright Section */}
         <ScrollAnimation animation="slideInUp" delay={0.2}>
-          <div className={cn(
-            "flex flex-col gap-6 sm:gap-8",
-            showDivider && (columns.length > 0 || newsletter?.enabled) && "pt-2"
-          )}>
-
+          <div
+            className={cn(
+              'flex flex-col gap-6 sm:gap-8',
+              showDivider &&
+                (columns.length > 0 || newsletter?.enabled) &&
+                'pt-2',
+            )}
+          >
             {/* Logo + Réseaux sociaux */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               {/* Logo */}
               {copyright.logo && (
                 <div className="flex-shrink-0">
                   <Image
                     src={copyright.logo}
-                    alt={copyright.logoAlt || "Logo"}
+                    alt={copyright.logoAlt || 'Logo'}
                     width={120}
                     height={40}
-                    className="h-8 sm:h-10 w-auto"
+                    className="h-8 w-auto sm:h-10"
                   />
                 </div>
               )}
@@ -247,20 +270,20 @@ export default function BaseVariant({
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300",
-                        "hover:bg-muted hover:scale-110",
-                        colors.hover
+                        'flex h-9 w-9 items-center justify-center rounded-full transition-all duration-300',
+                        'hover:scale-110 hover:bg-muted',
+                        colors.hover,
                       )}
                       aria-label={social.label}
                     >
-                      <Icon name={social.icon || "Link"} className="h-4 w-4" />
+                      <Icon name={social.icon || 'Link'} className="h-4 w-4" />
                     </a>
                   ))}
                 </div>
               )}
             </div>
             {/* Copyright text + liens légaux */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+            <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground sm:flex-row">
               {/* Texte copyright */}
               <p>{copyright.text}</p>
 
@@ -271,8 +294,8 @@ export default function BaseVariant({
                     <a
                       key={link.label + index}
                       href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noopener noreferrer' : undefined}
                       className="transition-colors hover:text-foreground"
                     >
                       {link.label}

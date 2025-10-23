@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useCallback } from "react"
-import { ScrollAnimation } from "@/components/scroll-animation"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Icon } from "@/components/ui/icon"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
-import { colorClasses } from "@/lib/color-mapping"
-import type { TestimonialsProps } from "../types"
-import { CustomHeader } from "@/components/ui/CustomHeader"
+import { useState, useEffect, useCallback } from 'react'
+import { ScrollAnimation } from '@/components/scroll-animation'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Icon } from '@/components/ui/icon'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
+import { colorClasses } from '@/lib/color-mapping'
+import type { TestimonialsProps } from '../types'
+import { CustomHeader } from '@/components/ui/CustomHeader'
 
 export default function CarouselVariant({
   header,
@@ -23,17 +23,19 @@ export default function CarouselVariant({
   autoplayDelay = 5000,
 }: TestimonialsProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const colors = colorClasses(colorVariant ?? "brand")
+  const colors = colorClasses(colorVariant ?? 'brand')
 
   const currentTestimonial = testimonials[currentIndex]
 
   // Navigation handlers
   const nextTestimonial = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length)
+    setCurrentIndex(prev => (prev + 1) % testimonials.length)
   }, [testimonials.length])
 
   const prevTestimonial = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+    setCurrentIndex(
+      prev => (prev - 1 + testimonials.length) % testimonials.length,
+    )
   }, [testimonials.length])
 
   // Autoplay
@@ -47,12 +49,12 @@ export default function CarouselVariant({
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") prevTestimonial()
-      if (e.key === "ArrowRight") nextTestimonial()
+      if (e.key === 'ArrowLeft') prevTestimonial()
+      if (e.key === 'ArrowRight') nextTestimonial()
     }
 
-    window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [prevTestimonial, nextTestimonial])
 
   return (
@@ -67,10 +69,12 @@ export default function CarouselVariant({
       {/* Carousel */}
       <div className="relative mx-auto max-w-4xl">
         <ScrollAnimation animation="slideInUp" delay={0.1}>
-          <Card className={cn(
-            "overflow-hidden border transition-all duration-300",
-            colors.card,
-          )}>
+          <Card
+            className={cn(
+              'overflow-hidden border transition-all duration-300',
+              colors.card,
+            )}
+          >
             <CardContent className="p-6 sm:p-8">
               <div className="grid items-center gap-6 sm:gap-8 lg:grid-cols-3">
                 {/* Avatar et infos */}
@@ -79,18 +83,22 @@ export default function CarouselVariant({
                     <Image
                       width={80}
                       height={80}
-                      src={currentTestimonial.author.avatar || '/placeholder.svg'}
+                      src={
+                        currentTestimonial.author.avatar || '/placeholder.svg'
+                      }
                       alt={currentTestimonial.author.name}
                       className={cn(
-                        "rounded-full border-4 transition-all duration-300",
-                        colors.hover
+                        'rounded-full border-4 transition-all duration-300',
+                        colors.hover,
                       )}
                     />
                   </div>
 
-                  <h3 className={cn(
-                    "text-lg font-semibold transition-colors text-foreground"
-                  )}>
+                  <h3
+                    className={cn(
+                      'text-lg font-semibold text-foreground transition-colors',
+                    )}
+                  >
                     {currentTestimonial.author.name}
                   </h3>
 
@@ -99,17 +107,19 @@ export default function CarouselVariant({
                   </p>
 
                   {currentTestimonial.author.company && (
-                    <p className={cn(
-                      "text-sm font-medium mt-1 transition-colors",
-                      colors.text
-                    )}>
+                    <p
+                      className={cn(
+                        'mt-1 text-sm font-medium transition-colors',
+                        colors.text,
+                      )}
+                    >
                       {currentTestimonial.author.company}
                     </p>
                   )}
 
                   {/* Rating */}
                   {currentTestimonial.rating && (
-                    <div className="mt-2 flex items-center justify-center lg:justify-start gap-1">
+                    <div className="mt-2 flex items-center justify-center gap-1 lg:justify-start">
                       {[...Array(currentTestimonial.rating)].map((_, i) => (
                         <Icon
                           key={i}
@@ -126,14 +136,16 @@ export default function CarouselVariant({
                   <Icon
                     name="Quote"
                     className={cn(
-                      "mb-4 h-8 w-8 transition-colors",
-                      colors.icon
+                      'mb-4 h-8 w-8 transition-colors',
+                      colors.icon,
                     )}
                   />
-                  <blockquote className={cn(
-                    "text-base sm:text-lg leading-relaxed transition-colors",
-                    quoteClassName
-                  )}>
+                  <blockquote
+                    className={cn(
+                      'text-base leading-relaxed transition-colors sm:text-lg',
+                      quoteClassName,
+                    )}
+                  >
                     "{currentTestimonial.quote}"
                   </blockquote>
                 </div>
@@ -145,7 +157,7 @@ export default function CarouselVariant({
         {/* Navigation */}
         {(showNavigation || showDots) && testimonials.length > 1 && (
           <ScrollAnimation animation="slideInUp" delay={0.2}>
-            <div className="mt-6 sm:mt-8 flex items-center justify-center space-x-4">
+            <div className="mt-6 flex items-center justify-center space-x-4 sm:mt-8">
               {/* Previous Button */}
               {showNavigation && (
                 <Button
@@ -153,8 +165,8 @@ export default function CarouselVariant({
                   size="sm"
                   onClick={prevTestimonial}
                   className={cn(
-                    "rounded-full transition-all duration-300",
-                    colors.hover
+                    'rounded-full transition-all duration-300',
+                    colors.hover,
                   )}
                   aria-label="Témoignage précédent"
                 >
@@ -164,7 +176,11 @@ export default function CarouselVariant({
 
               {/* Dots */}
               {showDots && (
-                <div className="flex space-x-2" role="tablist" aria-label="Sélection de témoignage">
+                <div
+                  className="flex space-x-2"
+                  role="tablist"
+                  aria-label="Sélection de témoignage"
+                >
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
@@ -172,10 +188,10 @@ export default function CarouselVariant({
                       aria-selected={index === currentIndex}
                       aria-label={`Témoignage ${index + 1}`}
                       className={cn(
-                        "h-2 sm:h-3 w-2 sm:w-3 rounded-full transition-all duration-300",
+                        'h-2 w-2 rounded-full transition-all duration-300 sm:h-3 sm:w-3',
                         index === currentIndex
-                          ? cn("scale-110", colors.accent)
-                          : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                          ? cn('scale-110', colors.accent)
+                          : 'bg-muted-foreground/30 hover:bg-muted-foreground/50',
                       )}
                       onClick={() => setCurrentIndex(index)}
                     />
@@ -190,8 +206,8 @@ export default function CarouselVariant({
                   size="sm"
                   onClick={nextTestimonial}
                   className={cn(
-                    "rounded-full transition-all duration-300",
-                    colors.hover
+                    'rounded-full transition-all duration-300',
+                    colors.hover,
                   )}
                   aria-label="Témoignage suivant"
                 >

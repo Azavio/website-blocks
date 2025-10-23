@@ -1,24 +1,24 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { Icon } from "@/components/ui/icon"
-import { Badge } from "@/components/ui/badge"
+import { useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { Icon } from '@/components/ui/icon'
+import { Badge } from '@/components/ui/badge'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
-import { colorClasses } from "@/lib/color-mapping"
-import { useTheme } from "next-themes"
+} from '@/components/ui/dropdown-menu'
+import { cn } from '@/lib/utils'
+import { colorClasses } from '@/lib/color-mapping'
+import { useTheme } from 'next-themes'
 
-import type { NavbarProps, NavSection, NavLink } from "../types"
+import type { NavbarProps, NavSection, NavLink } from '../types'
 
 export default function BaseVariant({
   logo,
@@ -32,24 +32,26 @@ export default function BaseVariant({
   className,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [openMobileSection, setOpenMobileSection] = useState<string | null>(null)
+  const [openMobileSection, setOpenMobileSection] = useState<string | null>(
+    null,
+  )
   const pathname = usePathname()
-  const colors = colorClasses(colorVariant ?? "neutral")
-  const ctaColors = colorClasses(cta?.colorVariant ?? "brand")
+  const colors = colorClasses(colorVariant ?? 'neutral')
+  const ctaColors = colorClasses(cta?.colorVariant ?? 'brand')
   const { theme } = useTheme()
 
   // Classes de base pour les liens
   const baseLinkClasses =
-    "text-sm font-semibold p-2 rounded leading-6 transition-colors " +
-    "hover:bg-muted hover:text-foreground"
+    'text-sm font-semibold p-2 rounded leading-6 transition-colors ' +
+    'hover:bg-muted hover:text-foreground'
 
   // Classes selon pathname actif
   const getLinkClasses = (href: string) =>
     cn(
       baseLinkClasses,
-      pathname === href || pathname.startsWith(href + "/")
-        ? cn("text-foreground", colors.text)
-        : "text-muted-foreground"
+      pathname === href || pathname.startsWith(href + '/')
+        ? cn('text-foreground', colors.text)
+        : 'text-muted-foreground',
     )
 
   // Toggle section mobile
@@ -60,12 +62,12 @@ export default function BaseVariant({
   return (
     <header
       className={cn(
-        "z-50 w-full border-b",
-        sticky && "sticky top-0",
+        'z-50 w-full border-b',
+        sticky && 'sticky top-0',
         transparent
-          ? "bg-transparent"
-          : "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
-        className
+          ? 'bg-transparent'
+          : 'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        className,
       )}
     >
       <nav
@@ -74,9 +76,9 @@ export default function BaseVariant({
       >
         {/* Logo */}
         <div className="flex lg:flex-1">
-          <Link href={logo.href || "/"} className="-m-1.5 flex items-center">
+          <Link href={logo.href || '/'} className="-m-1.5 flex items-center">
             <Image
-              src={theme === "dark" ? logo["darkSrc"] : logo["lightSrc"]}
+              src={theme === 'dark' ? logo['darkSrc'] : logo['lightSrc']}
               alt={logo.alt}
               width={logo.width || 80}
               height={logo.height || 50}
@@ -85,7 +87,7 @@ export default function BaseVariant({
         </div>
 
         {/* Mobile: Theme Toggle + Menu Button */}
-        <div className="flex lg:hidden items-center gap-2">
+        <div className="flex items-center gap-2 lg:hidden">
           {showThemeToggle && <ThemeToggle />}
           <Button
             variant="ghost"
@@ -99,14 +101,14 @@ export default function BaseVariant({
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:gap-x-8 h-10 items-center">
+        <div className="hidden h-10 items-center lg:flex lg:gap-x-8">
           {/* Liens simples */}
-          {links.map((link) => (
+          {links.map(link => (
             <Link
               key={link.name}
               href={link.href}
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noopener noreferrer" : undefined}
+              target={link.external ? '_blank' : undefined}
+              rel={link.external ? 'noopener noreferrer' : undefined}
               className={getLinkClasses(link.href)}
             >
               <span className="flex items-center gap-2">
@@ -117,40 +119,47 @@ export default function BaseVariant({
                     {link.badge}
                   </Badge>
                 )}
-                {link.external && <Icon name="ExternalLink" className="h-3 w-3 opacity-50" />}
+                {link.external && (
+                  <Icon name="ExternalLink" className="h-3 w-3 opacity-50" />
+                )}
               </span>
             </Link>
           ))}
 
           {/* Sections avec dropdown */}
-          {sections.map((section) => (
+          {sections.map(section => (
             <DropdownMenu key={section.label}>
               <DropdownMenuTrigger
                 className={cn(
                   getLinkClasses(section.href),
-                  "flex items-center gap-1"
+                  'flex items-center gap-1',
                 )}
               >
-                {section.icon && <Icon name={section.icon} className="h-4 w-4" />}
+                {section.icon && (
+                  <Icon name={section.icon} className="h-4 w-4" />
+                )}
                 {section.label}
                 <Icon name="ChevronDown" className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
                 {section.description && (
-                  <div className="px-2 py-1.5 text-xs text-muted-foreground border-b mb-1">
+                  <div className="mb-1 border-b px-2 py-1.5 text-xs text-muted-foreground">
                     {section.description}
                   </div>
                 )}
-                {section.items.map((item) => (
+                {section.items.map(item => (
                   <DropdownMenuItem key={item.name} asChild>
                     <Link
                       href={item.href}
                       className={cn(
-                        "flex items-center gap-2 cursor-pointer",
-                        pathname === item.href && cn("text-foreground", colors.text)
+                        'flex cursor-pointer items-center gap-2',
+                        pathname === item.href &&
+                          cn('text-foreground', colors.text),
                       )}
                     >
-                      {item.icon && <Icon name={item.icon} className="h-4 w-4" />}
+                      {item.icon && (
+                        <Icon name={item.icon} className="h-4 w-4" />
+                      )}
                       <span className="flex-1">{item.name}</span>
                       {item.badge && (
                         <Badge variant="secondary" className="text-xs">
@@ -171,14 +180,11 @@ export default function BaseVariant({
           {cta && (
             <Button
               asChild
-              variant={cta.variant || "default"}
+              variant={cta.variant || 'default'}
               className={cn(
-                "transition-all duration-300",
-                cta.variant === "default" && cn(
-                  "bg-gradient-to-r",
-                  ctaColors.accent,
-                  "hover:opacity-90"
-                )
+                'transition-all duration-300',
+                cta.variant === 'default' &&
+                  cn('bg-gradient-to-r', ctaColors.accent, 'hover:opacity-90'),
               )}
             >
               <Link href={cta.href}>
@@ -204,12 +210,12 @@ export default function BaseVariant({
             {/* Header */}
             <div className="flex items-center justify-between">
               <Link
-                href={logo.href || "/"}
+                href={logo.href || '/'}
                 className="-m-1.5 flex items-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Image
-                  src={theme === "dark" ? logo["darkSrc"] : logo["lightSrc"]}
+                  src={theme === 'dark' ? logo['darkSrc'] : logo['lightSrc']}
                   alt={logo.alt}
                   width="50"
                   height="50"
@@ -231,53 +237,63 @@ export default function BaseVariant({
               <div className="-my-6 divide-y divide-border">
                 <div className="space-y-2 py-6">
                   {/* Liens simples */}
-                  {links.map((link) => (
+                  {links.map(link => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      target={link.external ? "_blank" : undefined}
-                      rel={link.external ? "noopener noreferrer" : undefined}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noopener noreferrer' : undefined}
                       className={cn(
-                        "-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-muted",
+                        '-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-muted',
                         pathname === link.href
-                          ? cn("text-foreground", colors.text)
-                          : "text-muted-foreground"
+                          ? cn('text-foreground', colors.text)
+                          : 'text-muted-foreground',
                       )}
                       onClick={() => setMobileMenuOpen(false)}
                     >
-                      {link.icon && <Icon name={link.icon} className="h-5 w-5" />}
+                      {link.icon && (
+                        <Icon name={link.icon} className="h-5 w-5" />
+                      )}
                       <span className="flex-1">{link.name}</span>
                       {link.badge && (
                         <Badge variant="secondary" className="text-xs">
                           {link.badge}
                         </Badge>
                       )}
-                      {link.external && <Icon name="ExternalLink" className="h-4 w-4 opacity-50" />}
+                      {link.external && (
+                        <Icon
+                          name="ExternalLink"
+                          className="h-4 w-4 opacity-50"
+                        />
+                      )}
                     </Link>
                   ))}
 
                   {/* Sections avec sous-menus */}
-                  {sections.map((section) => (
+                  {sections.map(section => (
                     <div key={section.label} className="space-y-1">
                       {/* Bouton section */}
                       <button
                         onClick={() => toggleMobileSection(section.label)}
                         className={cn(
-                          "w-full flex items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-muted",
-                          (pathname === section.href || pathname.startsWith(section.href + "/"))
-                            ? cn("text-foreground", colors.text)
-                            : "text-muted-foreground"
+                          'flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-muted',
+                          pathname === section.href ||
+                            pathname.startsWith(section.href + '/')
+                            ? cn('text-foreground', colors.text)
+                            : 'text-muted-foreground',
                         )}
                       >
                         <span className="flex items-center gap-2">
-                          {section.icon && <Icon name={section.icon} className="h-5 w-5" />}
+                          {section.icon && (
+                            <Icon name={section.icon} className="h-5 w-5" />
+                          )}
                           {section.label}
                         </span>
                         <Icon
                           name="ChevronDown"
                           className={cn(
-                            "h-5 w-5 transition-transform",
-                            openMobileSection === section.label && "rotate-180"
+                            'h-5 w-5 transition-transform',
+                            openMobileSection === section.label && 'rotate-180',
                           )}
                         />
                       </button>
@@ -285,19 +301,21 @@ export default function BaseVariant({
                       {/* Sous-pages */}
                       {openMobileSection === section.label && (
                         <div className="space-y-1 pl-4">
-                          {section.items.map((item) => (
+                          {section.items.map(item => (
                             <Link
                               key={item.name}
                               href={item.href}
                               className={cn(
-                                "-mx-3 flex items-center gap-2 rounded-lg px-6 py-2 text-sm leading-7 transition-colors hover:bg-muted",
+                                '-mx-3 flex items-center gap-2 rounded-lg px-6 py-2 text-sm leading-7 transition-colors hover:bg-muted',
                                 pathname === item.href
-                                  ? cn("text-foreground", colors.text)
-                                  : "text-muted-foreground"
+                                  ? cn('text-foreground', colors.text)
+                                  : 'text-muted-foreground',
                               )}
                               onClick={() => setMobileMenuOpen(false)}
                             >
-                              {item.icon && <Icon name={item.icon} className="h-4 w-4" />}
+                              {item.icon && (
+                                <Icon name={item.icon} className="h-4 w-4" />
+                              )}
                               <span className="flex-1">{item.name}</span>
                               {item.badge && (
                                 <Badge variant="secondary" className="text-xs">
@@ -317,18 +335,24 @@ export default function BaseVariant({
                   <div className="py-6">
                     <Button
                       asChild
-                      variant={cta.variant || "default"}
+                      variant={cta.variant || 'default'}
                       className={cn(
-                        "w-full transition-all duration-300",
-                        cta.variant === "default" && cn(
-                          "bg-gradient-to-r",
-                          ctaColors.accent,
-                          "hover:opacity-90"
-                        )
+                        'w-full transition-all duration-300',
+                        cta.variant === 'default' &&
+                          cn(
+                            'bg-gradient-to-r',
+                            ctaColors.accent,
+                            'hover:opacity-90',
+                          ),
                       )}
                     >
-                      <Link href={cta.href} onClick={() => setMobileMenuOpen(false)}>
-                        {cta.icon && <Icon name={cta.icon} className="mr-2 h-4 w-4" />}
+                      <Link
+                        href={cta.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {cta.icon && (
+                          <Icon name={cta.icon} className="mr-2 h-4 w-4" />
+                        )}
                         {cta.text}
                       </Link>
                     </Button>

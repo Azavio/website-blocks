@@ -1,21 +1,21 @@
-"use client"
+'use client'
 
-import { ScrollAnimation } from "@/components/scroll-animation"
-import { AnimatedBackground } from "@/components/animated-background"
-import { Button } from "@/components/ui/button"
-import { Icon } from "@/components/ui/icon"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
-import { colorClasses } from "@/lib/color-mapping"
-import type { HeroProps } from "../types"
+import { ScrollAnimation } from '@/components/scroll-animation'
+import { AnimatedBackground } from '@/components/animated-background'
+import { Button } from '@/components/ui/button'
+import { Icon } from '@/components/ui/icon'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
+import { colorClasses } from '@/lib/color-mapping'
+import type { HeroProps } from '../types'
 import {
   renderTextWithSegments,
   getBackgroundClasses,
   getSpacingClasses,
   getMaxWidthClasses,
   getAlignClasses,
-} from "../utils/hero-utils"
-import { useEffect, useRef } from "react"
+} from '../utils/hero-utils'
+import { useEffect, useRef } from 'react'
 
 export default function BaseVariant({
   content,
@@ -24,56 +24,60 @@ export default function BaseVariant({
   colorVariant,
   className,
   contentClassName,
-  spacing = "default",
+  spacing = 'default',
 }: HeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
   // Effet parallaxe pour les images
   useEffect(() => {
-    if (background?.type !== "parallax" || !sectionRef.current) return
+    if (background?.type !== 'parallax' || !sectionRef.current) return
 
     const handleScroll = () => {
       if (!sectionRef.current) return
       const scrolled = window.scrollY
-      const parallaxElement = sectionRef.current.querySelector(".parallax-bg") as HTMLElement
+      const parallaxElement = sectionRef.current.querySelector(
+        '.parallax-bg',
+      ) as HTMLElement
       if (parallaxElement) {
         parallaxElement.style.transform = `translateY(${scrolled * 0.5}px)`
       }
     }
 
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [background?.type])
 
-  const colors = colorClasses(colorVariant ?? "neutral")
-  const headingTag = content.headingLevel ?? "h1"
+  const colors = colorClasses(colorVariant ?? 'neutral')
+  const headingTag = content.headingLevel ?? 'h1'
 
   return (
     <section
       ref={sectionRef}
       className={cn(
-        "relative overflow-hidden",
+        'relative overflow-hidden',
         getBackgroundClasses(background, colorVariant),
         getSpacingClasses(spacing),
-        className
+        className,
       )}
     >
       {/* Animated Background Layer (Particles/Waves) - INDÉPENDANT */}
       {background?.animated && (
-        <AnimatedBackground variant={background.animatedVariant ?? "particles"} />
+        <AnimatedBackground
+          variant={background.animatedVariant ?? 'particles'}
+        />
       )}
 
       {/* Image Background */}
-      {background?.type === "image" && background.image && (
+      {background?.type === 'image' && background.image && (
         <div className="inset-0 -z-10">
           <Image
             src={background.image}
-            alt={background.imageAlt ?? ""}
+            alt={background.imageAlt ?? ''}
             fill
             className={cn(
-              "object-cover",
-              background.imagePosition && `object-${background.imagePosition}`
+              'object-cover',
+              background.imagePosition && `object-${background.imagePosition}`,
             )}
             style={{ opacity: background.imageOpacity ?? 1 }}
             priority
@@ -88,19 +92,20 @@ export default function BaseVariant({
       )}
 
       {/* Parallax Background */}
-      {background?.type === "parallax" && background.image && (
+      {background?.type === 'parallax' && background.image && (
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <div
-            className="parallax-bg absolute inset-0 w-full h-[120%] will-change-transform"
-            style={{ top: "-10%" }}
+            className="parallax-bg absolute inset-0 h-[120%] w-full will-change-transform"
+            style={{ top: '-10%' }}
           >
             <Image
               src={background.image}
-              alt={background.imageAlt ?? ""}
+              alt={background.imageAlt ?? ''}
               fill
               className={cn(
-                "object-cover",
-                background.imagePosition && `object-${background.imagePosition}`
+                'object-cover',
+                background.imagePosition &&
+                  `object-${background.imagePosition}`,
               )}
               style={{ opacity: background.imageOpacity ?? 1 }}
               priority
@@ -116,7 +121,7 @@ export default function BaseVariant({
       )}
 
       {/* Video Background */}
-      {background?.type === "video" && background.videoSrc && (
+      {background?.type === 'video' && background.videoSrc && (
         <div className="absolute inset-0 -z-10">
           <video
             ref={videoRef}
@@ -143,15 +148,15 @@ export default function BaseVariant({
         <ScrollAnimation animation="slideInUp">
           <div
             className={cn(
-              "mx-auto flex flex-col",
+              'mx-auto flex flex-col',
               getMaxWidthClasses(content.maxWidth),
               getAlignClasses(content.align),
-              contentClassName
+              contentClassName,
             )}
           >
             {/* Heading */}
-            {headingTag === "h1" ? (
-              <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-6xl text-background">
+            {headingTag === 'h1' ? (
+              <h1 className="text-3xl font-bold tracking-tight text-background sm:text-4xl lg:text-6xl">
                 {renderTextWithSegments(content.heading)}
               </h1>
             ) : (
@@ -171,11 +176,15 @@ export default function BaseVariant({
             {(content.text || content.textStrong) && (
               <p className="mt-6 px-4 text-base leading-7 sm:px-0 sm:text-lg sm:leading-8">
                 {content.text && (
-                  <span className="text-muted-foreground">{renderTextWithSegments(content.text)}</span>
+                  <span className="text-muted-foreground">
+                    {renderTextWithSegments(content.text)}
+                  </span>
                 )}
                 {content.text && content.textStrong && <br />}
                 {content.textStrong && (
-                  <strong className="text-foreground">{renderTextWithSegments(content.textStrong)}</strong>
+                  <strong className="text-foreground">
+                    {renderTextWithSegments(content.textStrong)}
+                  </strong>
                 )}
               </p>
             )}
@@ -184,10 +193,10 @@ export default function BaseVariant({
             {buttons && buttons.length > 0 && (
               <div
                 className={cn(
-                  "mt-10 flex flex-col gap-4 sm:flex-row",
-                  content.align === "left" && "justify-start",
-                  content.align === "right" && "justify-end",
-                  content.align === "center" && "justify-center"
+                  'mt-10 flex flex-col gap-4 sm:flex-row',
+                  content.align === 'left' && 'justify-start',
+                  content.align === 'right' && 'justify-end',
+                  content.align === 'center' && 'justify-center',
                 )}
               >
                 {buttons.map((button, index) => {
@@ -196,23 +205,26 @@ export default function BaseVariant({
                     : colors
 
                   const isFirstButton = index === 0
-                  const defaultVariant = isFirstButton ? "default" : "outline"
+                  const defaultVariant = isFirstButton ? 'default' : 'outline'
 
                   return (
                     <Button
                       key={index}
                       asChild={!!button.href}
-                      size={button.size ?? "lg"}
+                      size={button.size ?? 'lg'}
                       variant={button.variant ?? defaultVariant}
                       className={cn(
-                        "transition-all duration-300",
+                        'transition-all duration-300',
                         // Premier bouton avec gradient par défaut
-                        button.variant === "default" && [
+                        button.variant === 'default' && [
                           buttonColors.accent,
-                          "hover:opacity-90"
+                          'hover:opacity-90',
                         ],
                         // Bouton outline avec style custom
-                        button.variant === "outline" && [buttonColors.hover, "bg-transparent"]
+                        button.variant === 'outline' && [
+                          buttonColors.hover,
+                          'bg-transparent',
+                        ],
                       )}
                       /* className={cn(
   card.buttons.primary.variant === "default"
@@ -223,25 +235,29 @@ export default function BaseVariant({
                     >
                       {button.href ? (
                         <a href={button.href} className="flex items-center">
-                          {button.icon && button.iconPosition === "left" && (
+                          {button.icon && button.iconPosition === 'left' && (
                             <Icon name={button.icon} className="mr-2 h-4 w-4" />
                           )}
                           {button.text}
-                          {button.icon && button.iconPosition !== "left" && (
+                          {button.icon && button.iconPosition !== 'left' && (
                             <Icon name={button.icon} className="ml-2 h-4 w-4" />
                           )}
-                          {!button.icon && <Icon name="ArrowRight" className="ml-2 h-4 w-4" />}
+                          {!button.icon && (
+                            <Icon name="ArrowRight" className="ml-2 h-4 w-4" />
+                          )}
                         </a>
                       ) : (
                         <>
-                          {button.icon && button.iconPosition === "left" && (
+                          {button.icon && button.iconPosition === 'left' && (
                             <Icon name={button.icon} className="mr-2 h-4 w-4" />
                           )}
                           {button.text}
-                          {button.icon && button.iconPosition !== "left" && (
+                          {button.icon && button.iconPosition !== 'left' && (
                             <Icon name={button.icon} className="ml-2 h-4 w-4" />
                           )}
-                          {!button.icon && <Icon name="ArrowRight" className="ml-2 h-4 w-4" />}
+                          {!button.icon && (
+                            <Icon name="ArrowRight" className="ml-2 h-4 w-4" />
+                          )}
                         </>
                       )}
                     </Button>
