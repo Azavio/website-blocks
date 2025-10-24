@@ -16,9 +16,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { colorClasses } from '@/lib/color-mapping'
-import { useTheme } from 'next-themes'
 
-import type { NavbarProps, NavSection, NavLink } from '../types'
+import type { NavbarProps } from '../types'
 
 export default function BaseVariant({
   logo,
@@ -38,19 +37,6 @@ export default function BaseVariant({
   const pathname = usePathname()
   const colors = colorClasses(colorVariant ?? 'neutral')
   const ctaColors = colorClasses(cta?.colorVariant ?? 'brand')
-
-  const { theme, systemTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  
-  // Attendre que le composant soit monté côté client
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Déterminer le theme réel (en tenant compte du system theme)
-  const currentTheme = theme === 'system' || theme === undefined ? systemTheme : theme
-  // Pendant le SSR ou avant le mount, afficher le logo light par défaut
-  const logoSrc = mounted  ? (currentTheme === 'dark' ? logo.darkSrc : logo.lightSrc) : logo.lightSrc
 
   // Classes de base pour les liens
   const baseLinkClasses =
@@ -90,10 +76,18 @@ export default function BaseVariant({
         <div className="flex lg:flex-1">
           <Link href={logo.href || '/'} className="-m-1.5 flex items-center">
             <Image
-              src={logoSrc}
+              src={logo.darkSrc}
               alt={logo.alt}
               width={logo.width || 80}
               height={logo.height || 50}
+              className="h-8 w-auto hidden dark:block"
+            />
+            <Image
+              src={logo.lightSrc}
+              alt={logo.alt}
+              width={logo.width || 80}
+              height={logo.height || 50}
+              className="h-8 w-auto dark:hidden block"
             />
           </Link>
         </div>
