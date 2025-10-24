@@ -6,8 +6,9 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/theme-toggle'
-import { Icon } from '@/components/ui/icon'
+import { Menu } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { Icon } from '@/components/ui/icon'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -75,14 +76,14 @@ export default function BaseVariant({
         {/* Logo */}
         <div className="flex lg:flex-1">
           <Link href={logo.href || '/'} className="-m-1.5 flex items-center">
-            <Image
+            <img
               src={logo.darkSrc}
               alt={logo.alt}
               width={logo.width || 80}
               height={logo.height || 50}
               className="h-8 w-auto hidden dark:block"
             />
-            <Image
+            <img
               src={logo.lightSrc}
               alt={logo.alt}
               width={logo.width || 80}
@@ -102,7 +103,7 @@ export default function BaseVariant({
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Ouvrir le menu</span>
-            <Icon name="Menu" className="h-6 w-6" />
+            <Menu className="h-6 w-6" />
           </Button>
         </div>
 
@@ -207,24 +208,28 @@ export default function BaseVariant({
         <div className="lg:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm"
             onClick={() => setMobileMenuOpen(false)}
           />
 
           {/* Menu Panel */}
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l bg-background px-6 py-6 shadow-2xl sm:max-w-sm">
-            {/* Header */}
-            <div className="flex items-center justify-between">
+          <div className="fixed inset-y-0 right-0 z-50 w-full bg-background shadow-2xl sm:max-w-sm">
+            {/* Header fixe en haut */}
+            <div className="flex items-center justify-between border-b p-6">
               <Link
                 href={logo.href || '/'}
                 className="-m-1.5 flex items-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Image
-                  src={logoSrc}
+                <img
+                  src={logo.darkSrc}
                   alt={logo.alt}
-                  width="50"
-                  height="50"
+                  className="h-8 w-auto hidden dark:block"
+                />
+                <img
+                  src={logo.lightSrc}
+                  alt={logo.alt}
+                  className="h-8 w-auto dark:hidden block"
                 />
               </Link>
               <Button
@@ -238,133 +243,111 @@ export default function BaseVariant({
               </Button>
             </div>
 
-            {/* Navigation Links */}
-            <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-border">
-                <div className="space-y-2 py-6">
-                  {/* Liens simples */}
-                  {links.map(link => (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      target={link.external ? '_blank' : undefined}
-                      rel={link.external ? 'noopener noreferrer' : undefined}
-                      className={cn(
-                        '-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-muted',
-                        pathname === link.href
-                          ? cn('text-foreground', colors.text)
-                          : 'text-muted-foreground',
-                      )}
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {link.icon && (
-                        <Icon name={link.icon} className="h-5 w-5" />
-                      )}
-                      <span className="flex-1">{link.name}</span>
-                      {link.badge && (
-                        <Badge variant="secondary" className="text-xs">
-                          {link.badge}
-                        </Badge>
-                      )}
-                      {link.external && (
-                        <Icon
-                          name="ExternalLink"
-                          className="h-4 w-4 opacity-50"
-                        />
-                      )}
-                    </Link>
-                  ))}
+            {/* Zone scrollable avec les liens */}
+            <div className="h-[calc(100vh-80px)] bg-background overflow-y-auto p-6">
+              <div className="space-y-1">
+                {/* Liens simples */}
+                {links.map(link => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    target={link.external ? '_blank' : undefined}
+                    rel={link.external ? 'noopener noreferrer' : undefined}
+                    className={cn(
+                      'flex items-center gap-3 rounded-lg px-4 py-3 text-base font-medium transition-all hover:bg-accent/10',
+                      pathname === link.href
+                        ? 'bg-accent/20 text-foreground font-semibold'
+                        : 'text-foreground/80 hover:text-foreground',
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.icon && <Icon name={link.icon} className="h-5 w-5" />}
+                    <span className="flex-1">{link.name}</span>
+                    {link.badge && (
+                      <Badge variant="secondary" className="text-xs">
+                        {link.badge}
+                      </Badge>
+                    )}
+                    {link.external && (
+                      <Icon name="ExternalLink" className="h-4 w-4 opacity-50" />
+                    )}
+                  </Link>
+                ))}
 
-                  {/* Sections avec sous-menus */}
-                  {sections.map(section => (
-                    <div key={section.label} className="space-y-1">
-                      {/* Bouton section */}
-                      <button
-                        onClick={() => toggleMobileSection(section.label)}
+                {/* Sections avec sous-menus */}
+                {sections.map(section => (
+                  <div key={section.label} className="space-y-1">
+                    <button
+                      onClick={() => toggleMobileSection(section.label)}
+                      className={cn(
+                        'flex w-full items-center justify-between rounded-lg px-4 py-3 text-base font-medium transition-all hover:bg-accent/10',
+                        pathname === section.href || pathname.startsWith(section.href + '/')
+                          ? 'bg-accent/20 text-foreground font-semibold'
+                          : 'text-foreground/80 hover:text-foreground',
+                      )}
+                    >
+                      <span className="flex items-center gap-3">
+                        {section.icon && <Icon name={section.icon} className="h-5 w-5" />}
+                        {section.label}
+                      </span>
+                      <Icon
+                        name="ChevronDown"
                         className={cn(
-                          'flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors hover:bg-muted',
-                          pathname === section.href ||
-                            pathname.startsWith(section.href + '/')
-                            ? cn('text-foreground', colors.text)
-                            : 'text-muted-foreground',
+                          'h-5 w-5 transition-transform duration-200',
+                          openMobileSection === section.label && 'rotate-180',
                         )}
-                      >
-                        <span className="flex items-center gap-2">
-                          {section.icon && (
-                            <Icon name={section.icon} className="h-5 w-5" />
-                          )}
-                          {section.label}
-                        </span>
-                        <Icon
-                          name="ChevronDown"
-                          className={cn(
-                            'h-5 w-5 transition-transform',
-                            openMobileSection === section.label && 'rotate-180',
-                          )}
-                        />
-                      </button>
+                      />
+                    </button>
 
-                      {/* Sous-pages */}
-                      {openMobileSection === section.label && (
-                        <div className="space-y-1 pl-4">
-                          {section.items.map(item => (
-                            <Link
-                              key={item.name}
-                              href={item.href}
-                              className={cn(
-                                '-mx-3 flex items-center gap-2 rounded-lg px-6 py-2 text-sm leading-7 transition-colors hover:bg-muted',
-                                pathname === item.href
-                                  ? cn('text-foreground', colors.text)
-                                  : 'text-muted-foreground',
-                              )}
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              {item.icon && (
-                                <Icon name={item.icon} className="h-4 w-4" />
-                              )}
-                              <span className="flex-1">{item.name}</span>
-                              {item.badge && (
-                                <Badge variant="secondary" className="text-xs">
-                                  {item.badge}
-                                </Badge>
-                              )}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA Button */}
-                {cta && (
-                  <div className="py-6">
-                    <Button
-                      asChild
-                      variant={cta.variant || 'default'}
-                      className={cn(
-                        'w-full transition-all duration-300',
-                        cta.variant === 'default' &&
-                        cn(
-                          'bg-gradient-to-r',
-                          ctaColors.accent,
-                          'hover:opacity-90',
-                        ),
-                      )}
-                    >
-                      <Link
-                        href={cta.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {cta.icon && (
-                          <Icon name={cta.icon} className="mr-2 h-4 w-4" />
-                        )}
-                        {cta.text}
-                      </Link>
-                    </Button>
+                    {openMobileSection === section.label && (
+                      <div className="space-y-1 py-1">
+                        {section.items.map(item => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            className={cn(
+                              'flex items-center gap-3 rounded-lg pl-12 pr-4 py-2.5 text-sm font-medium transition-all hover:bg-accent/10',
+                              pathname === item.href
+                                ? 'bg-accent/20 text-foreground font-semibold'
+                                : 'text-foreground/70 hover:text-foreground',
+                            )}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {item.icon && <Icon name={item.icon} className="h-4 w-4" />}
+                            <span className="flex-1">{item.name}</span>
+                            {item.badge && (
+                              <Badge variant="secondary" className="text-xs">
+                                {item.badge}
+                              </Badge>
+                            )}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
+                ))}
               </div>
+
+              {/* CTA Button */}
+              {cta && (
+                <div className="mt-8 pt-6 border-t border-border/50">
+                  <Button
+                    asChild
+                    variant={cta.variant || 'default'}
+                    size="lg"
+                    className={cn(
+                      'w-full transition-all duration-300 shadow-lg hover:shadow-xl',
+                      cta.variant === 'default' &&
+                      cn('bg-gradient-to-r', ctaColors.accent, 'hover:opacity-90'),
+                    )}
+                  >
+                    <Link href={cta.href} onClick={() => setMobileMenuOpen(false)}>
+                      {cta.icon && <Icon name={cta.icon} className="mr-2 h-5 w-5" />}
+                      {cta.text}
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         </div>
